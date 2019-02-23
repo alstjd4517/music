@@ -18,18 +18,18 @@ def get_prefix(bot, msg):
     """A callable Prefix for our bot. This could be edited to allow per server prefixes."""
 
     # Notice how you can use spaces in prefixes. Try to keep them simple though.
-    prefixes = ['a.', 's.']
+    prefixes = ['!']
 
-    me=['nep.','k.','saki.','a.','s.']
+    me=['!']
 
-    if msg.author.id == '123123123123':
+    if msg.author.id == '269297499683029002':
         return commands.when_mentioned_or(*me)(bot, msg)
 
 
     return commands.when_mentioned_or(*prefixes)(bot, msg)
 
 
-bot = commands.Bot(command_prefix=get_prefix,description='A music bot fro discord Kurusaki')
+bot = commands.Bot(command_prefix=get_prefix,description='노래봇')
 bot.remove_command('help')
 
 # extensions=['server_songs']
