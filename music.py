@@ -187,6 +187,24 @@ async def leave(con):
             bot.loop.create_task(queue_songs(con,True))
 
 @bot.command(pass_context=True)
+async def ㄲㅈ(con):
+    """LEAVE THE VOICE CHANNEL AND STOP ALL SONGS AND CLEAR QUEUE"""
+    check=str(con.message.channel)
+    if check == 'Direct Message with {}'.format(con.message.author.name):#COMMAND USED IN DM
+        await bot.send_message(con.message.channel,"**통화방에 초대후 명령어를 써(!join)**")
+
+    if check != 'Direct Message with {}'.format(con.message.author.name):#COMMAND NOT IN DM
+        
+        # IF VOICE IS NOT CONNECTED
+        if bot.is_voice_connected(con.message.server) == False:
+            await bot.send_message(con.message.channel,"**연결실패**")
+
+        # VOICE ALREADY CONNECTED
+        if bot.is_voice_connected(con.message.server) == True:
+            bot.loop.create_task(queue_songs(con,True))
+
+            
+@bot.command(pass_context=True)
 async def pause(con):
     check = str(con.message.channel)
     if check == 'Direct Message with {}'.format(con.message.author.name):# COMMAND IS IN DM
