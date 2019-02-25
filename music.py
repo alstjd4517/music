@@ -109,7 +109,7 @@ async def play(con,*,url):
     """PLAY THE GIVEN SONG AND QUEUE IT IF THERE IS CURRENTLY SOGN PLAYING"""
     check = str(con.message.channel)
     if check == 'Direct Message with {}'.format(con.message.author.name):
-        await bot.send_message(con.message.channel, "**You must be in a `server voice channel` to use this command**")
+        await bot.send_message(con.message.channel, "**통화방에 초대후 명령어를 써(!join)**")
 
     if check != 'Direct Message with {}'.format(con.message.author.name):
         if bot.is_voice_connected(con.message.server) == False:
@@ -118,7 +118,7 @@ async def play(con,*,url):
         if bot.is_voice_connected(con.message.server) == True:
             if player_status[con.message.server.id]==True:
                 song_names[con.message.server.id].append(url)
-                await bot.send_message(con.message.channel, "**Song  Queued**")
+                await bot.send_message(con.message.channel, "**예약.**")
 
 
                 
@@ -139,11 +139,11 @@ async def play(con,*,url):
 async def skip(con):
     check = str(con.message.channel)
     if check == 'Direct Message with {}'.format(con.message.author.name):#COMMAND IS IN DM
-        await bot.send_message(con.message.channel, "**You must be in a `server voice channel` to use this command**")
+        await bot.send_message(con.message.channel, "**통화방에 초대후 명령어를 써(!join)**")
 
     if check != 'Direct Message with {}'.format(con.message.author.name):#COMMAND NOT IN DM
         if servers_songs[con.message.server.id]== None or len(song_names[con.message.server.id])==0 or player_status[con.message.server.id]==False:
-            await bot.send_message(con.message.channel,"**No songs in queue to skip**")
+            await bot.send_message(con.message.channel,"**스킵할 노래가 없어**")
         if servers_songs[con.message.server.id] !=None:
             servers_songs[con.message.server.id].pause()
             bot.loop.create_task(queue_songs(con,False))
@@ -156,7 +156,7 @@ async def join(con,channel=None):
     check = str(con.message.channel)
 
     if check == 'Direct Message with {}'.format(con.message.author.name):#COMMAND IS IN DM
-        await bot.send_message(con.message.channel, "**You must be in a `server voice channel` to use this command**")
+        await bot.send_message(con.message.channel, "**통화방에 초대후 명령어를 써(!join)**")
 
     if check != 'Direct Message with {}'.format(con.message.author.name):#COMMAND NOT IN DM
         voice_status = bot.is_voice_connected(con.message.server)
@@ -165,7 +165,7 @@ async def join(con,channel=None):
             await bot.join_voice_channel(con.message.author.voice.voice_channel)
 
         if voice_status == True:#VOICE ALREADY CONNECTED
-            await bot.send_message(con.message.channel, "**Bot is already connected to a voice channel**")
+            await bot.send_message(con.message.channel, "**이미 통화방에 있는데? 내보내려면 !leave를 쳐줘**")
 
 
 
@@ -174,13 +174,13 @@ async def leave(con):
     """LEAVE THE VOICE CHANNEL AND STOP ALL SONGS AND CLEAR QUEUE"""
     check=str(con.message.channel)
     if check == 'Direct Message with {}'.format(con.message.author.name):#COMMAND USED IN DM
-        await bot.send_message(con.message.channel,"**You must be in a `server voice channel` to use this command**")
+        await bot.send_message(con.message.channel,"**통화방에 초대후 명령어를 써(!join)**")
 
     if check != 'Direct Message with {}'.format(con.message.author.name):#COMMAND NOT IN DM
         
         # IF VOICE IS NOT CONNECTED
         if bot.is_voice_connected(con.message.server) == False:
-            await bot.send_message(con.message.channel,"**Bot is not connected to a voice channel**")
+            await bot.send_message(con.message.channel,"**연결실패**")
 
         # VOICE ALREADY CONNECTED
         if bot.is_voice_connected(con.message.server) == True:
@@ -190,13 +190,13 @@ async def leave(con):
 async def pause(con):
     check = str(con.message.channel)
     if check == 'Direct Message with {}'.format(con.message.author.name):# COMMAND IS IN DM
-        await bot.send_message(con.message.channel, "**You must be in a `server voice channel` to use this command**")
+        await bot.send_message(con.message.channel, "**통화방에 초대후 명령어를 써(!join)**")
 
     # COMMAND NOT IN DM
     if check != 'Direct Message with {}'.format(con.message.author.name):
         if servers_songs[con.message.server.id]!=None:
             if paused[con.message.server.id] == True:
-                await bot.send_message(con.message.channel,"**Audio already paused**")
+                await bot.send_message(con.message.channel,"**이미 일시정지 상태입니다.**")
             if paused[con.message.server.id]==False:
                 servers_songs[con.message.server.id].pause()
                 paused[con.message.server.id]=True
@@ -206,13 +206,13 @@ async def resume(con):
     check = str(con.message.channel)
     # COMMAND IS IN DM
     if check == 'Direct Message with {}'.format(con.message.author.name):
-        await bot.send_message(con.message.channel, "**You must be in a `server voice channel` to use this command**")
+        await bot.send_message(con.message.channel, "**통화방에 초대후 명령어를 써(!join)**")
 
     # COMMAND NOT IN DM
     if check != 'Direct Message with {}'.format(con.message.author.name):
         if servers_songs[con.message.server.id] != None:
             if paused[con.message.server.id] == False:
-                await bot.send_message(con.message.channel,"**Audio already playing**")
+                await bot.send_message(con.message.channel,"**이미 재생중입니다.**")
             if paused[con.message.server.id] ==True:
                 servers_songs[con.message.server.id].resume()
                 paused[con.message.server.id]=False
