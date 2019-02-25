@@ -4,7 +4,7 @@ import youtube_dl
 from discord.ext import commands
 from discord.utils import find
 import requests as rq
-
+import os
 
 
 def get_prefix(bot, msg):
@@ -266,4 +266,4 @@ async def volume(con, vol: float):
         servers_songs[con.message.server.id].volume = vol
 
 
-bot.run('BOT_TOKEN')
+os.bot.run('BOT_TOKEN')
